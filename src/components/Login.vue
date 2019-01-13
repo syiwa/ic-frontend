@@ -53,10 +53,10 @@ export default{
 	methods: {
 		onSubmit: function(e){
 			var vm = this;
-			this.$store.dispatch('auth/login', [
-				this.form.email,
-				this.form.password,
-				(data) => {
+			this.$store.dispatch('auth/login', {
+				email: this.form.email,
+				password: this.form.password,
+				callback: (data) => {
 					if(data.status == "success"){
 						this.$emit('loginSuccess');
 						this.$router.push('dashboard');
@@ -67,7 +67,7 @@ export default{
 						this.validation.password = data.password;
 					}
 				}
-			]);
+			});
 		}
 	}
 }

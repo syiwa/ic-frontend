@@ -21,6 +21,24 @@ window._ = require('underscore');
 
 axios.defaults.baseURL = 'http://localhost:8000/api';
 
+axios.interceptors.response.use(function (response) {
+	switch(response.data._meta.code){
+		case 401: {
+			router.push('/')
+		}break;
+
+		case 403: {
+			router.push('/dashboard')
+		}break;
+
+		default:{
+			return response;
+		}
+	}
+}, function (error) {
+	return Promise.reject(error);
+});
+
 new Vue({
   router,
   store,

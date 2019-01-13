@@ -12,7 +12,10 @@
 
 		  		<b-navbar-nav>
 			      	<b-nav-item v-if="isAuth">
-				    	<router-link to="dashboard">Dashboard</router-link> 
+				    	<router-link to="/dashboard">Dashboard</router-link> 
+			      	</b-nav-item>
+			      	<b-nav-item v-if="isAuth">
+				    	<router-link to="/users">Users</router-link> 
 			      	</b-nav-item>
 			    </b-navbar-nav>
 

@@ -32,7 +32,7 @@ export default {
 
 		.ic-login-box{
 			width: 400px;
-			background-color: white;
+			background-color: #f1f1f1;
 			box-shadow: 5px 5px 10px rgba(0,0,0,.2);
 			padding: 30px;
 			box-sizing: border-box;

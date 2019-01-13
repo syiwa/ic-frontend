@@ -13,17 +13,20 @@
         Now loading...
       </div>
     </div>
+    <FlyingNotification />
   </div>
 </template>
 
 <script>
 
 import Header from '@/components/Header'
+import FlyingNotification from '@/components/FlyingNotification'
 import { mapState } from 'vuex'
 
 export default{
   components: {
-    Header
+    Header,
+    FlyingNotification
   },
   computed: mapState({
     loaderState: state => state.loader.show

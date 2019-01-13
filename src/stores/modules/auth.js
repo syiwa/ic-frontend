@@ -5,7 +5,8 @@ import router from '@/router'
 const state = {
 	user: {},
 	roles: [],
-	isAuth: false
+	isAuth: false,
+	authReadyForCheck: !localStorage.hasOwnProperty('userToken') /* Prevent auth passed before logged in and prevent auth blocked after login because of load time difference */
 }
 
 const mutations = {
@@ -17,6 +18,9 @@ const mutations = {
 	},
 	setAuth(state, status){
 		state.isAuth = status;
+	},
+	setAuthReadyForCheck(state, status){
+		state.authReadyForCheck = status;
 	}
 }
 
@@ -24,8 +28,8 @@ const actions = {
 	login({state, commit}, params) {
 		store.dispatch('loader/show');
 		axios.post('v1/auth/login', {
-			email: params[0],
-			password: params[1]
+			email: params.email,
+			password: params.password
 		}).then(function(response) {
 			store.dispatch('loader/hide');
 			var data = response.data;
@@ -40,14 +44,14 @@ const actions = {
 				commit('setAuth', true);
 				commit('setRoles', roles);
 				commit('setUser', data.user);
-				if(params[2]){
-					params[2]({
+				if(params.callback){
+					params.callback({
 						status: "success"
 					})
 				}
 			}else{
-				if(params[2]){
-					params[2]({
+				if(params.callback){
+					params.callback({
 						status: "failed",
 						data: data
 					});
@@ -69,7 +73,7 @@ const actions = {
 			}
 		});
 	},
-	tokenExistPreparation({state, commit}){
+	tokenExistPreparation({state, commit}, callback){
 		store.dispatch('loader/show');
 		axios.defaults.headers.Authorization = "Bearer " + localStorage.getItem('userToken');
 		axios.get('v1/users/self').then(function(response){
@@ -82,10 +86,14 @@ const actions = {
 				commit('setAuth', true);
 				commit('setRoles', roles);
 				commit('setUser', data);
+				commit('setAuthReadyForCheck', true);
 			}else if(data._meta.code == 401){
 				router.push('/')
 			}
 		});
+	},
+	authReadyForCheck({state, commit}){
+		commit('setAuthReadyForCheck', true);
 	}
 }
 
