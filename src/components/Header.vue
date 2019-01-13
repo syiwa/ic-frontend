@@ -9,15 +9,19 @@
 		  <b-collapse is-nav id="nav_collapse">
 
 		    <!-- Right aligned nav items -->
-		    <b-navbar-nav class="ml-auto">
+		    <b-navbar-nav class="ml-auto" v-if="!isAuth">
 		      <b-nav-item v-b-modal.login>Login</b-nav-item>
+		    </b-navbar-nav>
+
+		    <b-navbar-nav class="ml-auto" v-if="isAuth">
+		      <b-nav-item @click="logout">Logout</b-nav-item>
 		    </b-navbar-nav>
 
 		  </b-collapse>
 		</b-navbar>
 		
-		<b-modal id="login" title="Login" hide-footer>
-		    <Login />
+		<b-modal ref="login" id="login" title="Login" hide-footer>
+		    <Login @loginSuccess="hideModal" />
 		</b-modal>
 	</div>
 </template>
@@ -25,11 +29,25 @@
 <script>
 
 import Login from '@/components/Login.vue'
+import { mapState } from 'vuex'
 
 export default{
 	name: 'Header',
 	components: {
 		Login
+	},
+	computed: mapState({
+		isAuth: state => state.auth.isAuth
+	}),
+	methods: {
+		logout: function(){
+			this.$store.dispatch('auth/logout', () => {
+				this.$router.push('/')
+			})
+		},
+		hideModal: function(){
+			this.$refs.login.hide();
+		}
 	}
 }
 

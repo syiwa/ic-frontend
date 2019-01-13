@@ -1,7 +1,10 @@
 <template>
   <div class="home">
-  		<div class="ic-login-box">
+  		<div class="ic-login-box" v-if="!isAuth">
 	  		<Login />
+	  	</div>
+	  	<div class="ic-welcome" v-if="isAuth">
+	  		You're already Login.
 	  	</div>
   </div>
 </template>
@@ -9,12 +12,16 @@
 <script>
 // @ is an alias to /src
 import Login from '@/components/Login.vue'
+import { mapState } from 'vuex'
 
 export default {
-  name: 'home',
-  components: {
-  	Login
-  }
+  	name: 'home',
+  	components: {
+  		Login
+  	},
+  	computed: mapState({
+  		isAuth: state => state.auth.isAuth
+  	})
 }
 </script>
 
