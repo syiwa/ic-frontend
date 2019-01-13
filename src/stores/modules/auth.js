@@ -1,5 +1,6 @@
 import axios from 'axios';
 import store from '@/stores';
+import router from '@/router'
 
 const state = {
 	user: {},
@@ -55,7 +56,9 @@ const actions = {
 		});
 	},
 	logout({state, commit}, callback){
+		store.dispatch('loader/show');
 		axios.post('v1/auth/logout').then(function(response){
+			store.dispatch('loader/hide');
 			commit('setAuth', false);
 			commit('setRoles', []);
 			commit('setUser', {});
@@ -63,6 +66,24 @@ const actions = {
 
 			if(callback){
 				callback();
+			}
+		});
+	},
+	tokenExistPreparation({state, commit}){
+		store.dispatch('loader/show');
+		axios.defaults.headers.Authorization = "Bearer " + localStorage.getItem('userToken');
+		axios.get('v1/users/self').then(function(response){
+			store.dispatch('loader/hide');
+			var data = response.data;
+			if(data._meta.code == 200){
+				var roles = _.clone(data.roles);
+				delete data.roles;
+
+				commit('setAuth', true);
+				commit('setRoles', roles);
+				commit('setUser', data);
+			}else if(data._meta.code == 401){
+				router.push('/')
 			}
 		});
 	}

@@ -4,7 +4,7 @@
 	  		<Login />
 	  	</div>
 	  	<div class="ic-welcome" v-if="isAuth">
-	  		You're already Login.
+	  		You're already logged in.
 	  	</div>
   </div>
 </template>

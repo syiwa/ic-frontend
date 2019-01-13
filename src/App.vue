@@ -8,10 +8,6 @@
     </main>
     <footer>
     </footer>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/dashboard">Dashboard</router-link>
-    </div>
     <div class="ic-loader" v-if="loaderState">
       <div class="placeholder">
         Now loading...
@@ -31,7 +27,17 @@ export default{
   },
   computed: mapState({
     loaderState: state => state.loader.show
-  })
+  }),
+  methods: {
+    checkAuth: function(){
+      if(localStorage.hasOwnProperty('userToken')){
+        this.$store.dispatch('auth/tokenExistPreparation');
+      }
+    }
+  },
+  beforeMount() {
+    this.checkAuth();
+  }
 }
 
 </script>
