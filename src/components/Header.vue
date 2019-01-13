@@ -14,7 +14,7 @@
 			      	<b-nav-item v-if="isAuth">
 				    	<router-link to="/dashboard">Dashboard</router-link> 
 			      	</b-nav-item>
-			      	<b-nav-item v-if="isAuth">
+			      	<b-nav-item v-if="isAuth && this.$store.getters['auth/hasRole']('admin')">
 				    	<router-link to="/users">Users</router-link> 
 			      	</b-nav-item>
 			    </b-navbar-nav>
@@ -39,16 +39,18 @@
 <script>
 
 import Login from '@/components/Login.vue'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default{
 	name: 'Header',
 	components: {
 		Login
 	},
-	computed: mapState({
-		isAuth: state => state.auth.isAuth
-	}),
+	computed: {
+		...mapState({
+			isAuth: state => state.auth.isAuth,
+		})
+	},
 	methods: {
 		logout: function(){
 			this.$store.dispatch('auth/logout', () => {

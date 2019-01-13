@@ -12,11 +12,26 @@ const actions = {
 			params: params.params
 		}).then(function(response){
 			var data = response.data;
-			if(data._meta.code = 200){
+			if(data._meta.code == 200){
 				delete data._meta;
 				if(params.callback){
 					params.callback(data);
 				}
+			}
+		});
+	},
+	deleteUser({state, commit}, params){
+		axios.delete(`v1/users/${params.id}`).then(function(response){
+			var data = response.data;
+
+			if(data._meta.code == 200){
+				params.callback({
+					status: "success"
+				})
+			}else{
+				params.callback({
+					status: "failed"
+				})
 			}
 		});
 	}
