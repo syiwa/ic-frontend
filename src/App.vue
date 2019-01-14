@@ -7,6 +7,7 @@
       <router-view/>
     </main>
     <footer>
+      <Footer />
     </footer>
     <div class="ic-loader" v-if="loaderState">
       <div class="placeholder">
@@ -20,12 +21,14 @@
 <script>
 
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import FlyingNotification from '@/components/FlyingNotification'
 import { mapState } from 'vuex'
 
 export default{
   components: {
     Header,
+    Footer,
     FlyingNotification
   },
   computed: mapState({

@@ -24,10 +24,12 @@ axios.defaults.baseURL = 'http://localhost:8000/api';
 axios.interceptors.response.use(function (response) {
 	switch(response.data._meta.code){
 		case 401: {
+	  		store.dispatch('notification/show', `You must login to access the page.`)
 			router.push('/')
 		}break;
 
 		case 403: {
+	  		store.dispatch('notification/show', `You are not authorized to access the page.`)
 			router.push('/dashboard')
 		}break;
 

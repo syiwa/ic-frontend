@@ -107,6 +107,9 @@ const getters = {
 				name: role
 			}).length > 0
 		}
+	},
+	myRole: (state, getters) => {
+		return _.pluck(state.roles, 'name').join(", ")
 	}
 }
 
