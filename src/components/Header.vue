@@ -31,6 +31,10 @@
 				        <b-dropdown-item to="/profile/settings">
 					    	Users 
 				        </b-dropdown-item>
+				        <b-dropdown-item to="/profile/password">
+					    	Change Password 
+				        </b-dropdown-item>
+				        <div class="dropdown-divider"></div>
 				        <b-dropdown-item @click="logout">
 				      		Logout
 				        </b-dropdown-item>

@@ -5,6 +5,7 @@ import store from '@/stores'
 import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import User from './views/User.vue'
+import ChangePassword from './views/ChangePassword.vue'
 
 import UserList from './components/User/UserList.vue'
 import UserForm from './components/User/UserForm.vue'
@@ -82,6 +83,12 @@ const router = new Router({
           }
         }
       ]
+    },{
+      path: '/profile/password',
+      component: ChangePassword,
+      meta: {
+        auth: true
+      }
     }
   ]
 })

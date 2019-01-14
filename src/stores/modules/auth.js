@@ -97,6 +97,24 @@ const actions = {
 	},
 	setUser({state, commit}, user){
 		commit('setUser', user);
+	},
+	changePassword({state, commit}, params){
+		store.dispatch('loader/show');
+		axios.post('v1/users/password', params.data).then(function(response){
+			store.dispatch('loader/hide');
+			var data = response.data;
+			if(data._meta.code == 200){
+				params.callback({
+					status: "success",
+					data: data
+				})
+			}else{
+				params.callback({
+					status: "failed",
+					data: data
+				})
+			}
+		});
 	}
 }
 
