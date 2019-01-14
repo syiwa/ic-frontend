@@ -17,6 +17,9 @@
 			    </b-button>
 			</template>
 		</b-table>
+
+		<Pagination @pageMove="movePage" :total="usersMeta.total" :page="usersMeta.current_page" :perPage="usersMeta.per_page" />
+
 		<b-modal ref="delete" id="delete" title="Delete User" ok-title="Delete" ok-variant="danger" @ok="confirmDeleteUser">
 	    	<p class="my-4">Are you sure want to delete user <strong>{{ toDeletedUser.email }}</strong>?</p>
 	  	</b-modal>
@@ -24,12 +27,18 @@
 </template>
 
 <script type="text/javascript">
+
+import Pagination from '@/components/Pagination'
 	
 export default{
 	name: 'UserList',
+	components:{
+		Pagination
+	},
 	data: () => {
 		return {
 			usersData: [],
+			usersMeta: {},
 			fields: [
 				'name',
 				'email',
@@ -45,16 +54,22 @@ export default{
 			return _.map(this.usersData, function(o){
 				return _.pick(o, ['id','name','email','phone','address'])
 			})
+		},
+		page: function(){
+			return this.$route.query.page
 		}
 	},
 	methods: {
 		loadUsers: function(page){
+			this.$store.dispatch('loader/show');
 			this.$store.dispatch('user/loadUsers', {
 				params: {
 					page: (page) ? page : 1
 				},
 				callback: (data) => {
+					this.$store.dispatch('loader/hide');
 					this.usersData = data.data;
+					this.usersMeta = _.pick(data, ['current_page','per_page','total']);
 				}
 			})
 		},
@@ -77,11 +92,19 @@ export default{
 					}
 				}
 			})
+		},
+		movePage: function(to){
+			this.$router.push({
+				path: 'users',
+				query: {
+					page: to
+				}
+			})
+			this.loadUsers(this.page);
 		}
 	},
 	beforeMount: function(){
-		var page = this.$route.query.page;
-		this.loadUsers(page);
+		this.loadUsers(this.page);
 	}
 }
 
