@@ -15,7 +15,7 @@ Vue.use(
 
 Vue.config.productionTip = false
 
-document.title = 'ICSG Test'
+document.title = 'ICSG Test - Syiwa Wahyu Saputra'
 
 window._ = require('underscore');
 

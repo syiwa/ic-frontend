@@ -53,7 +53,7 @@
 <script>
 
 import Login from '@/components/Login.vue'
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default{
 	name: 'Header',
