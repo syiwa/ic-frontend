@@ -29,7 +29,7 @@
 				         	{{ user.name }}
 				        </template>
 				        <b-dropdown-item to="/profile/settings">
-					    	Users 
+					    	Profile Setting 
 				        </b-dropdown-item>
 				        <b-dropdown-item to="/profile/password">
 					    	Change Password 
