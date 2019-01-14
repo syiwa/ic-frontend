@@ -24,7 +24,17 @@
 		    	</b-navbar-nav>
 
 		    	<b-navbar-nav class="ml-auto" v-if="isAuth">
-		      		<b-nav-item @click="logout">Logout</b-nav-item>
+		      		<b-nav-item-dropdown right>
+				        <template slot="button-content">
+				         	{{ user.name }}
+				        </template>
+				        <b-dropdown-item to="/profile/settings">
+					    	Users 
+				        </b-dropdown-item>
+				        <b-dropdown-item @click="logout">
+				      		Logout
+				        </b-dropdown-item>
+				    </b-nav-item-dropdown>
 		    	</b-navbar-nav>
 
 		  	</b-collapse>
@@ -49,6 +59,7 @@ export default{
 	computed: {
 		...mapState({
 			isAuth: state => state.auth.isAuth,
+			user: state => state.auth.user
 		})
 	},
 	methods: {

@@ -3,7 +3,7 @@
 		<b-alert variant="danger"
             dismissible
             :show="showValidationAlert"
-            @dismissed="showDismissibleAlert=false">
+            @dismissed="clearValidation">
             <li v-for="error in allValidationMessages">
             	{{ error }}
             </li>
@@ -40,12 +40,15 @@ export default{
 	},
 	computed: {
 		showValidationAlert() {
-			return this.validation._general.length > 0 ||
-				this.validation.email.length > 0 ||
-				this.validation.password.length > 0
+			var show = false;
+			_.each(this.validation, (key, val) => {
+				if(this.validation[val] && this.validation[val].length > 0) show = true;
+			})
+			return show;
 		},
 		allValidationMessages() {
 			return _.without(_.reduce(this.validation, function(last, o){
+				if(!last) last = [];
 				return last.concat(_.values(o));
 			}), undefined);
 		}
@@ -53,6 +56,7 @@ export default{
 	methods: {
 		onSubmit: function(e){
 			var vm = this;
+			this.clearValidation();
 			this.$store.dispatch('auth/login', {
 				email: this.form.email,
 				password: this.form.password,
@@ -68,6 +72,13 @@ export default{
 					}
 				}
 			});
+		},
+		clearValidation: function(){
+			this.validation = {
+				_general: [],
+				email: [],
+				password: []
+			}
 		}
 	}
 }

@@ -51,7 +51,8 @@ const router = new Router({
           meta: {
             auth: true,
             roles: ['admin'],
-            title: 'Add User'
+            title: 'Add User',
+            purpose: 'add'
           }
         },{
           path: ':id/edit',
@@ -59,7 +60,25 @@ const router = new Router({
           meta: {
             auth: true,
             roles: ['admin'],
-            title: 'Update User'
+            title: 'Update User',
+            purpose: 'edit'
+          }
+        }
+      ]
+    },{
+      path: '/profile/settings',
+      component: User,
+      meta: {
+        auth: true
+      },
+      children: [
+        {
+          path: '/',
+          component: UserForm,
+          meta: {
+            auth: true,
+            title: 'User Settings',
+            purpose: 'setting'
           }
         }
       ]

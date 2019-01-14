@@ -94,6 +94,9 @@ const actions = {
 	},
 	authReadyForCheck({state, commit}){
 		commit('setAuthReadyForCheck', true);
+	},
+	setUser({state, commit}, user){
+		commit('setUser', user);
 	}
 }
 
